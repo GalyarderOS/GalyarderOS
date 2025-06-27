@@ -63,17 +63,13 @@ const LifeBalance = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* 2. Ganti input range dengan komponen Slider yang lebih canggih dan dapat di-style */}
               <Slider
                 value={[area.score]}
                 onValueChange={(value: number[]) => handleUpdateScore(area.id, value[0])}
                 max={100}
                 step={1}
                 aria-label={`Skor untuk ${area.name}`}
-                // 3. Trik CSS: Kirim warna dinamis melalui variabel CSS ke komponen Slider
-                style={{ 
-                  '--slider-range-color': `var(--${area.color.replace('bg-', '')})` 
-                } as React.CSSProperties}
+                rangeClassName={area.color}
               />
             </CardContent>
           </Card>
