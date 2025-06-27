@@ -13,8 +13,15 @@ export const useProductivityMetrics = (stats: DashboardStats) => {
     scoreInfo,
     focusData,
   } = useMemo(() => {
-    const focusScore = Math.round((stats.focusHoursToday / 8) * 100);
-    const calculatedProductivityScore = Math.round(
+    const isProductivityDataEmpty = 
+      stats.focusHoursToday === 0 &&
+      stats.activeHabits === 0 &&
+      stats.habitStreak === 0 &&
+      stats.activeGoals === 0 &&
+      stats.weeklyFocusHours === 0;
+
+    const focusScore = isProductivityDataEmpty ? 0 : Math.round((stats.focusHoursToday / 8) * 100);
+    const calculatedProductivityScore = isProductivityDataEmpty ? 0 : Math.round(
       (focusScore * 0.4) +
       ((stats.activeHabits / 5) * 25) +
       ((stats.habitStreak / 7) * 25) +
@@ -22,6 +29,7 @@ export const useProductivityMetrics = (stats: DashboardStats) => {
     );
 
     const getScoreLabel = (score: number) => {
+      if (isProductivityDataEmpty) return { label: "N/A", color: 'bg-gray-500' };
       if (score >= 80) return { label: t.excellent, color: 'bg-green-500' };
       if (score >= 60) return { label: t.good, color: 'bg-yellow-500' };
       return { label: t.needsWork, color: 'bg-red-500' };
@@ -29,7 +37,15 @@ export const useProductivityMetrics = (stats: DashboardStats) => {
 
     const scoreInfo = getScoreLabel(calculatedProductivityScore);
 
-    const focusData = [
+    const focusData = isProductivityDataEmpty ? [
+      { name: 'Mon', hours: 0 },
+      { name: 'Tue', hours: 0 },
+      { name: 'Wed', hours: 0 },
+      { name: 'Thu', hours: 0 },
+      { name: 'Fri', hours: 0 },
+      { name: 'Sat', hours: 0 },
+      { name: 'Sun', hours: 0 },
+    ] : [
       { name: 'Mon', hours: 6.5 },
       { name: 'Tue', hours: 7.2 },
       { name: 'Wed', hours: 5.8 },
@@ -39,10 +55,23 @@ export const useProductivityMetrics = (stats: DashboardStats) => {
       { name: 'Sun', hours: stats.focusHoursToday },
     ];
 
+    const monthlyFocusData = isProductivityDataEmpty ? [
+      { name: 'Week 1', hours: 0 },
+      { name: 'Week 2', hours: 0 },
+      { name: 'Week 3', hours: 0 },
+      { name: 'Week 4', hours: 0 },
+    ] : [
+      { name: 'Week 1', hours: 30 },
+      { name: 'Week 2', hours: 35 },
+      { name: 'Week 3', hours: 28 },
+      { name: 'Week 4', hours: 40 },
+    ];
+
     return { 
       productivityScore: calculatedProductivityScore, 
       scoreInfo, 
-      focusData 
+      focusData, 
+      monthlyFocusData 
     };
   }, [stats, t]);
 

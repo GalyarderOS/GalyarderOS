@@ -57,15 +57,27 @@ const LifeOverviewSection = ({ stats }: LifeOverviewSectionProps) => {
     }
   }[language];
 
+  const isLifeOverviewDataEmpty = 
+    stats.lifeBalanceScore === 0 &&
+    stats.activeHabits === 0 &&
+    stats.activeGoals === 0 &&
+    stats.habitStreak === 0 &&
+    stats.focusHoursToday === 0 &&
+    stats.totalPortfolioValue === 0 &&
+    stats.monthlyIncome === 0 &&
+    stats.monthlyExpenses === 0 &&
+    stats.savingsRate === 0;
+
+  const personalScore = isLifeOverviewDataEmpty ? 0 : Math.round(((stats.activeHabits / 5) * 40) + ((stats.habitStreak / 7) * 30) + ((stats.activeGoals / 3) * 30));
+  const productivityScore = isLifeOverviewDataEmpty ? 0 : Math.round((stats.focusHoursToday / 8) * 100);
+  const financialScore = isLifeOverviewDataEmpty ? 0 : Math.round(Math.min(stats.savingsRate * 2, 100));
+
   const getScoreLabel = (score: number) => {
+    if (isLifeOverviewDataEmpty) return { label: "N/A", color: 'bg-gray-500' };
     if (score >= 80) return { label: t.excellent, color: 'bg-green-500' };
     if (score >= 60) return { label: t.good, color: 'bg-yellow-500' };
     return { label: t.needsWork, color: 'bg-red-500' };
   };
-
-  const personalScore = Math.round(((stats.activeHabits / 5) * 40) + ((stats.habitStreak / 7) * 30) + ((stats.activeGoals / 3) * 30));
-  const productivityScore = Math.round((stats.focusHoursToday / 8) * 100);
-  const financialScore = Math.round(Math.min(stats.savingsRate * 2, 100));
 
   const overviewCards = [
     {
@@ -141,10 +153,10 @@ const LifeOverviewSection = ({ stats }: LifeOverviewSectionProps) => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-slate-800 dark:text-slate-100">{card.score}%</div>
+                      <div className="text-2xl font-bold text-slate-800 dark:text-slate-100">{isLifeOverviewDataEmpty ? 'N/A' : `${card.score}%`}</div>
                     </div>
                   </div>
-                  <Progress value={card.score} className="h-2 mt-4" />
+                  <Progress value={isLifeOverviewDataEmpty ? 0 : card.score} className="h-2 mt-4" />
                 </CardHeader>
                 <CardContent className="pt-0">
                   <div className="grid grid-cols-3 gap-4">

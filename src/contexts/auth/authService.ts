@@ -3,36 +3,41 @@
 import { Profile } from './types';
 import { User } from './types'; // Import our own User type
 
-// TODO: Replace with Bolt API
+// TODO: Implement actual API calls for Bolt API
 export const fetchProfile = async (userId: string): Promise<Profile | null> => {
-  console.log('Fetching profile for user:', userId);
-  return {
-    id: userId,
-    full_name: 'Mock User',
-    has_completed_onboarding: true,
-  };
+  console.warn('fetchProfile: Not implemented. Using placeholder.');
+  return null; // Or throw an error, depending on desired behavior
 };
 
 export const ensureProfileExists = async (user: User): Promise<void> => {
-  console.log('Ensuring profile exists for user:', user.id);
-  // No-op for now
+  console.warn('ensureProfileExists: Not implemented.');
 };
 
 export const signUpUser = async (email: string, password: string, fullName: string) => {
-  console.log('Signing up user:', email, fullName);
-  return { error: null };
+  console.warn('signUpUser: Not implemented.');
+  return { error: new Error("Sign up not implemented") };
 };
 
 export const signInUser = async (email: string, password: string) => {
-  console.log('Signing in user:', email);
-  return { error: null };
+  console.warn('signInUser: Not implemented.');
+  return { error: new Error("Sign in not implemented") };
 };
 
 export const signInWithGoogleUser = async () => {
-  console.log('Signing in with Google');
-  return { error: null };
+  console.warn('signInWithGoogleUser: Not implemented.');
+  return { error: new Error("Google sign in not implemented") };
 };
 
 export const signOutUser = async () => {
-  console.log('Signing out user');
+  console.warn('signOutUser: Not implemented.');
+};
+
+export const updateUserProfile = async (userId: string, updates: Partial<Profile>) => {
+  console.warn('updateUserProfile: Not implemented.', userId, updates);
+  return { error: new Error("Profile update not implemented") };
+};
+
+export const uploadAvatar = async (userId: string, file: File) => {
+  console.warn('uploadAvatar: Not implemented.', userId, file.name);
+  return { data: { publicUrl: null }, error: new Error("Avatar upload not implemented") };
 };

@@ -41,7 +41,7 @@ export function useChronoLogic() {
 
           if (timeDifferenceMinutes >= 0 && timeDifferenceMinutes <= REMINDER_LEAD_TIME_MINUTES) {
             // Untuk sekarang, kita gunakan alert. Nanti bisa diganti Web Notifications API.
-            alert(`Reminder: "${block.label}" akan dimulai dalam ${timeDifferenceMinutes} menit!`);
+            console.log(`Reminder: "${block.label}" akan dimulai dalam ${timeDifferenceMinutes} menit!`);
             
             // Tandai bahwa reminder untuk blok ini sudah terkirim
             setRemindedBlocks(prev => new Set(prev).add(block.id));
@@ -66,7 +66,7 @@ export function useChronoLogic() {
       // Check for overlap
       if (newStartTime < existingEndTime && newEndTime > existingStartTime) {
         // alert() ini hanya untuk development, nanti kita ganti dengan notifikasi yang lebih baik
-        alert(`Konflik terdeteksi dengan: "${existingBlock.label}"`);
+        console.error(`Konflik terdeteksi dengan: "${existingBlock.label}"`);
         return true; // Konflik ditemukan
       }
     }

@@ -94,7 +94,7 @@ const TopBar = ({
         {/* Left Section - Logo and App Name */}
         <div className="flex items-center space-x-3">
           <img 
-            src="/galyarder-logo.svg" 
+            src="/logo.png" 
             alt="GalyarderOS Logo" 
             className="w-10 h-10 object-contain" 
           />

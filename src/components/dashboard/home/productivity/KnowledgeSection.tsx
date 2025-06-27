@@ -23,11 +23,11 @@ const KnowledgeSection = ({ notesCount, reflectionEntries, translations }: Knowl
       </div>
       <div className="grid grid-cols-2 gap-4 text-center">
         <div>
-          <div className="font-bold text-slate-800 dark:text-slate-100">{notesCount}</div>
+          <div className="font-bold text-slate-800 dark:text-slate-100">{notesCount === 0 ? 'N/A' : notesCount}</div>
           <div className="text-xs text-slate-600 dark:text-slate-400">{translations.notes}</div>
         </div>
         <div>
-          <div className="font-bold text-slate-800 dark:text-slate-100">{reflectionEntries}</div>
+          <div className="font-bold text-slate-800 dark:text-slate-100">{reflectionEntries === 0 ? 'N/A' : reflectionEntries}</div>
           <div className="text-xs text-slate-600 dark:text-slate-400">{translations.reflections}</div>
         </div>
       </div>

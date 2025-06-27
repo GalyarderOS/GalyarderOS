@@ -15,12 +15,12 @@ const LandingNavigation = ({ theme, setTheme, onSignIn, onGetStarted }: LandingN
 
   const logo = (
     <motion.div 
-      className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center overflow-hidden"
+      className="w-10 h-10 flex items-center justify-center overflow-hidden"
       whileHover={{ scale: 1.05, rotate: 5 }}
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
       <img 
-        src="/galyarder-logo.svg" 
+        src="/logo.png" 
         alt="GalyarderOS Logo" 
         className="w-6 h-6 object-contain"
       />

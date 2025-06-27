@@ -74,17 +74,16 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
     setIsLoading(true);
     setConnectionError(false);
 
-    // TODO: Replace with Bolt API
-    setTimeout(() => {
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-            content: "This is a mocked AI response. The real AI is currently offline.",
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, assistantMessage]);
-      setIsLoading(false);
-    }, 1500);
+    // TODO: Implement actual Bolt API call for AI assistant
+    console.warn('AI Assistant message sending not implemented.');
+    const assistantMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      role: 'assistant',
+      content: "Sorry, the AI assistant is currently offline. Please try again later.",
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, assistantMessage]);
+    setIsLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -99,7 +98,7 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
       <DialogContent className="max-w-2xl h-[600px] flex flex-col p-0 bg-card border-2 border-border font-playfair">
         <DialogHeader className="p-6 pb-4 border-b border-border">
           <DialogTitle className="flex items-center space-x-2 font-playfair">
-            <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 flex items-center justify-center">
               <Sparkles className="h-5 w-5 text-muted-foreground" />
             </div>
             <span className="text-foreground">AI Assistant</span>
@@ -208,3 +207,4 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
 };
 
 export default AIAssistant;
+

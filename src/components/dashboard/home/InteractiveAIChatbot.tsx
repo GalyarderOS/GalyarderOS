@@ -7,9 +7,9 @@ interface Message {
   content: string;
 }
 const getAIAssistantReply = async (message: string) => {
-  // TODO: Replace with Bolt API
-  console.log('Sending message to AI:', message);
-  return new Promise(resolve => setTimeout(() => resolve("This is a mocked AI response. The real AI is currently offline."), 1500));
+  // TODO: Implement actual Bolt API
+  console.warn('AI Chatbot reply: Not implemented. Using placeholder.', message);
+  return "This is a placeholder AI response. The real AI is currently offline.";
 };
 const InteractiveAIChatbot = () => {
   const [messages, setMessages] = useState<Message[]>([{
@@ -64,7 +64,7 @@ const InteractiveAIChatbot = () => {
   return <section className="w-full max-w-2xl mx-auto">
       <div className="rounded-2xl border border-primary/60 bg-card/70 px-4 py-6 shadow-lg flex flex-col gap-4 animate-fade-in min-h-[380px]">
         <div className="flex items-center gap-2 mb-1">
-          <img src="/galyarder-logo.svg" alt="Galyarder Logo" className="w-9 h-9 object-contain" />
+          <img src="/logo.png" alt="Galyarder Logo" className="w-9 h-9 object-contain" />
           <span className="font-semibold text-base">Galyarder Architect Intellegent</span>
         </div>
         <div id="ai-chatbot-scroll" className="flex-1 min-h-[180px] max-h-56 overflow-y-auto pb-2 space-y-3" style={{

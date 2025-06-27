@@ -14,7 +14,7 @@ interface ProductivityMetricsProps {
 }
 
 const ProductivityMetrics = ({ stats }: ProductivityMetricsProps) => {
-  const { t, productivityScore, scoreInfo, focusData } = useProductivityMetrics(stats);
+  const { t, productivityScore, scoreInfo, focusData, monthlyFocusData } = useProductivityMetrics(stats);
 
   return (
     <motion.div
@@ -45,7 +45,7 @@ const ProductivityMetrics = ({ stats }: ProductivityMetricsProps) => {
             }}
           />
 
-          <ProductivityChart data={focusData} title={t.weeklyFocusTrend} />
+          <ProductivityChart data={focusData} title={t.weeklyFocusTrend} monthlyData={monthlyFocusData} monthlyTitle={t.monthlyFocusTrend} />
 
           <KnowledgeSection
             notesCount={stats.notesCount}

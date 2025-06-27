@@ -6,11 +6,40 @@ import ProductivityMetrics from './ProductivityMetrics';
 import LifeAnalyticsCharts from './LifeAnalyticsCharts';
 import { DashboardStats } from '@/types/dashboard';
 
-interface DashboardContentProps {
-  stats: DashboardStats;
+import { DashboardStats } from '@/types/dashboard';
+
+interface ProductivityData {
+  name: string;
+  focus: number;
+  energy: number;
+  mood: number;
 }
 
-const DashboardContent: React.FC<DashboardContentProps> = ({ stats }) => {
+interface GoalProgressData {
+  name: string;
+  value: number;
+  color: string;
+}
+
+interface TimeTrackingData {
+  activity: string;
+  hours: number;
+  color: string;
+}
+
+interface DashboardContentProps {
+  stats: DashboardStats;
+  productivityData: ProductivityData[];
+  goalProgressData: GoalProgressData[];
+  timeTrackingData: TimeTrackingData[];
+}
+
+const DashboardContent: React.FC<DashboardContentProps> = ({ 
+  stats,
+  productivityData,
+  goalProgressData,
+  timeTrackingData,
+}) => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
       <LifeOverviewSection stats={stats} />
@@ -30,7 +59,11 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ stats }) => {
         <FinancialHealthSection stats={stats} />
         <ProductivityMetrics stats={stats} />
       </div>
-      <LifeAnalyticsCharts />
+      <LifeAnalyticsCharts 
+        productivityData={productivityData}
+        goalProgressData={goalProgressData}
+        timeTrackingData={timeTrackingData}
+      />
     </div>
   );
 };

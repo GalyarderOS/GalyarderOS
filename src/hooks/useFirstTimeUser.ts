@@ -1,19 +1,29 @@
-// import { useAuth } from '@/contexts/AuthContext';
-// import { supabase } from '@/integrations/supabase/client';
+import { useState, useEffect } from 'react';
+
+const ONBOARDING_COMPLETED_KEY = 'galyarder_onboarding_completed';
 
 export const useFirstTimeUser = () => {
-  // const { user, profile, reloadProfile, loadingProfile } = useAuth();
+  const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isFirstTimeUser = false; // Mock value
+  useEffect(() => {
+    const onboardingCompleted = localStorage.getItem(ONBOARDING_COMPLETED_KEY);
+    if (onboardingCompleted === 'true') {
+      setIsFirstTimeUser(false);
+    } else {
+      setIsFirstTimeUser(true); // Set to true for first-time users
+    }
+    setIsLoading(false);
+  }, []);
 
-  const markOnboardingCompleted = async () => {
-    // TODO: Replace with Bolt API
-    console.log('Marking onboarding as completed');
+  const markOnboardingCompleted = () => {
+    setIsFirstTimeUser(false);
+    localStorage.setItem(ONBOARDING_COMPLETED_KEY, 'true');
   };
 
   return {
     isFirstTimeUser,
     markOnboardingCompleted,
-    isLoading: false, // Mock value
+    isLoading,
   };
 };

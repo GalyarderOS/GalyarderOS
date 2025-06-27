@@ -6,6 +6,7 @@ import { Button } from '@/components/global/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -70,6 +71,9 @@ export const CreateTimeBlockDialog: React.FC<CreateTimeBlockDialogProps> = ({ on
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Time Block</DialogTitle>
+          <DialogDescription>
+            Fill in the details below to add a new time block to your schedule.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

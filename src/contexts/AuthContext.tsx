@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuthState } from './auth/useAuthState';
-import { signUpUser, signInUser, signInWithGoogleUser } from './auth/authService';
+import { signUpUser, signInUser, signInWithGoogleUser, updateUserProfile, uploadAvatar } from './auth/authService';
 import { AuthContext } from './auth/useAuth';
 
 interface Transaction {
@@ -23,6 +23,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signUp: signUpUser,
     signIn: signInUser,
     signInWithGoogle: signInWithGoogleUser,
+    updateProfile: updateUserProfile,
+    uploadAvatar: uploadAvatar,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

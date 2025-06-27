@@ -18,6 +18,7 @@ export const productivityTranslations = {
     entries: "Entries",
     overallProductivity: "Overall Productivity",
     weeklyFocusTrend: "Weekly Focus Trend",
+    monthlyFocusTrend: "Monthly Focus Trend",
     notes: "Notes",
     reflections: "Reflections"
   },
@@ -39,6 +40,7 @@ export const productivityTranslations = {
     entries: "Entri",
     overallProductivity: "Produktivitas Keseluruhan",
     weeklyFocusTrend: "Tren Fokus Mingguan",
+    monthlyFocusTrend: "Tren Fokus Bulanan",
     notes: "Catatan",
     reflections: "Refleksi"
   }

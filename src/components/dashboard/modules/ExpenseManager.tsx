@@ -18,33 +18,6 @@ interface Expense {
   is_recurring: boolean;
 }
 
-const mockExpenses: Expense[] = [
-    {
-        id: '1',
-        description: 'Groceries',
-        category: 'Food',
-        amount: 150,
-        expense_date: '2024-07-25',
-        is_recurring: false,
-    },
-    {
-        id: '2',
-        description: 'Netflix Subscription',
-        category: 'Entertainment',
-        amount: 15.99,
-        expense_date: '2024-07-20',
-        is_recurring: true,
-    },
-    {
-        id: '3',
-        description: 'Dinner with friends',
-        category: 'Food',
-        amount: 75,
-        expense_date: '2024-07-18',
-        is_recurring: false,
-    },
-];
-
 const ExpenseManager = () => {
   const { user } = useAuth();
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -59,25 +32,13 @@ const ExpenseManager = () => {
   }, [user]);
 
   const loadExpenses = async () => {
-    // TODO: Replace with Bolt API
+    // TODO: Implement actual data fetching from Bolt API
     setLoading(true);
-    setTimeout(() => {
-        const expensesData = mockExpenses;
-      setExpenses(expensesData || []);
-
-      // Calculate category totals
-      const categoryTotals: { [key: string]: number } = {};
-      let total = 0;
-
-      expensesData?.forEach(expense => {
-        categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + expense.amount;
-        total += expense.amount;
-      });
-
-      setCategories(categoryTotals);
-      setTotalExpenses(total);
-      setLoading(false);
-    }, 1000);
+    console.warn("Expense data fetching not implemented. Expenses will be empty.");
+    setExpenses([]);
+    setCategories({});
+    setTotalExpenses(0);
+    setLoading(false);
   };
 
   if (loading) {

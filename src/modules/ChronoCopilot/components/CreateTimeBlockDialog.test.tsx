@@ -1,9 +1,8 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CreateTimeBlockDialog } from './CreateTimeBlockDialog';
 
-// Mendefinisikan mock TimeBlock agar sesuai dengan tipe yang diharapkan
 const mockTimeBlock = {
     label: 'Valid Label',
     start: '2025-06-18T14:00:00', // Jam 14:00
@@ -11,8 +10,12 @@ const mockTimeBlock = {
 };
 
 describe('CreateTimeBlockDialog', () => {
-  // Membuat mock function untuk prop onAddBlock
   const onAddBlockMock = vi.fn();
+
+  beforeEach(() => {
+    // Reset mock sebelum setiap tes
+    onAddBlockMock.mockClear();
+  });
 
   it('should show validation errors for empty fields on submit', async () => {
     const user = userEvent.setup();
@@ -63,10 +66,8 @@ describe('CreateTimeBlockDialog', () => {
     await user.type(screen.getByLabelText(/start time/i), mockTimeBlock.start);
     await user.type(screen.getByLabelText(/end time/i), mockTimeBlock.end);
 
-    // Gunakan 'act' jika ada update state yang mungkin terjadi setelah klik
-    await act(async () => {
-        await user.click(screen.getByRole('button', { name: /save block/i }));
-    });
+    // Klik tombol simpan
+    await user.click(screen.getByRole('button', { name: /save block/i }));
     
     // Asserasi: Fungsi onAddBlock DIPANGGIL dengan data yang benar
     expect(onAddBlockMock).toHaveBeenCalledWith({
@@ -75,6 +76,11 @@ describe('CreateTimeBlockDialog', () => {
       end: new Date(mockTimeBlock.end).toISOString(),
       category: 'General',
       isCompleted: false,
+    });
+
+    // Asserasi: Dialog tertutup setelah submit berhasil
+    await waitFor(() => {
+      expect(screen.queryByText('Create New Time Block')).not.toBeInTheDocument();
     });
   });
 }); 

@@ -19,7 +19,7 @@ const ProfileModule = () => {
     fullName: '',
     professionalTitle: '',
     bio: '',
-    coreValues: ['Innovation', 'Integrity', 'Growth', 'Impact'],
+    coreValues: [], // Removed mock values
     mission: '',
     vision: ''
   });
@@ -35,15 +35,14 @@ const ProfileModule = () => {
         bio: profile.life_purpose || '',
         mission: profile.mission_statement || '',
         vision: profile.vision_statement || '',
-        coreValues: prev.coreValues, // Core values are local-only for now
+        coreValues: [], // Ensure core values are empty on load, or fetched from profile if available
       }));
     }
   }, [profile]);
 
 
   const handleSave = async () => {
-    // TODO: Replace with Bolt API
-    console.log('Saving profile data:', formData);
+    console.warn('Profile save: Not implemented.', formData);
       setIsEditing(false);
     // You might want to show a toast notification here
   };

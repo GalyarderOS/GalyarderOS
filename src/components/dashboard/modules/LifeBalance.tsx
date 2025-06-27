@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/global/ui/card";
 import { Button } from "@/components/global/ui/button";
 import { Progress } from "@/components/global/ui/progress";
-import { Settings, Edit } from "lucide-react";
+import { Settings } from "lucide-react";
+import { Slider } from "@/components/global/ui/slider"; // 1. Impor komponen Slider baru
 
 // Tipe data & data awal hanya ada di file ini
 interface LifeArea {
@@ -24,7 +25,6 @@ const initialAreas: LifeArea[] = [
 // Komponen Utama LifeBalance
 const LifeBalance = () => {
   const [areas, setAreas] = useState<LifeArea[]>(initialAreas);
-  const [editingArea, setEditingArea] = useState<LifeArea | null>(null);
 
   const handleUpdateScore = (id: number, score: number) => {
     const newScore = Math.max(0, Math.min(100, score));
@@ -63,14 +63,17 @@ const LifeBalance = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className={`h-2 w-full ${area.color} rounded-full mb-4`}></div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={area.score}
-                onChange={(e) => handleUpdateScore(area.id, parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+              {/* 2. Ganti input range dengan komponen Slider yang lebih canggih dan dapat di-style */}
+              <Slider
+                value={[area.score]}
+                onValueChange={(value: number[]) => handleUpdateScore(area.id, value[0])}
+                max={100}
+                step={1}
+                aria-label={`Skor untuk ${area.name}`}
+                // 3. Trik CSS: Kirim warna dinamis melalui variabel CSS ke komponen Slider
+                style={{ 
+                  '--slider-range-color': `var(--${area.color.replace('bg-', '')})` 
+                } as React.CSSProperties}
               />
             </CardContent>
           </Card>
@@ -80,4 +83,4 @@ const LifeBalance = () => {
   );
 };
 
-export default LifeBalance; 
+export default LifeBalance;

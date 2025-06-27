@@ -3,7 +3,6 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { useChronoLogic } from './useChronoLogic';
 import type { TimeBlock } from '../types/timeblock';
 
-// Mock data untuk konsistensi tes
 const existingBlock: TimeBlock = {
   id: '1',
   label: 'Existing Block',
@@ -19,7 +18,6 @@ describe('useChronoLogic Hook', () => {
 
   beforeEach(() => {
     localStorage.clear();
-    window.alert = () => {}; // Mock alert untuk mencegahnya muncul di CLI
     // Menyiapkan localStorage dengan data awal
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([existingBlock]));
   });

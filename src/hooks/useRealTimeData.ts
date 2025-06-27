@@ -6,7 +6,7 @@ export interface RealTimeData {
   focus?: number;
 }
 
-// TODO: Replace with Bolt API
+
 export const useRealTimeData = () => {
   const { addNotification } = useNotifications();
 

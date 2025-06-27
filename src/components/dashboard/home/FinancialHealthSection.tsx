@@ -39,7 +39,8 @@ const FinancialHealthSection = ({ stats }: FinancialHealthSectionProps) => {
       good: "Good",
       needsWork: "Needs Work",
       portfolio: "Portfolio",
-      goals: "Goals"
+      goals: "Goals",
+      yearlyTrends: "Yearly Trends"
     },
     id: {
       financialHealth: "Kesehatan Finansial",
@@ -57,17 +58,30 @@ const FinancialHealthSection = ({ stats }: FinancialHealthSectionProps) => {
       good: "Baik",
       needsWork: "Perlu Perbaikan",
       portfolio: "Portofolio",
-      goals: "Tujuan"
+      goals: "Tujuan",
+      yearlyTrends: "Tren Tahunan"
     }
   }[language];
 
+  const isFinancialDataEmpty = 
+    stats.totalPortfolioValue === 0 &&
+    stats.monthlyIncome === 0 &&
+    stats.monthlyExpenses === 0 &&
+    stats.totalDebt === 0 &&
+    stats.savingsRate === 0 &&
+    stats.wealthGoals === 0 &&
+    stats.investments === 0;
+
   const netWorth = stats.totalPortfolioValue - stats.totalDebt;
   const debtToIncome = stats.monthlyIncome > 0 ? (stats.totalDebt / (stats.monthlyIncome * 12)) * 100 : 0;
-  const wealthScore = Math.round(
+  
+  const calculatedWealthScore = Math.round(
     (Math.min(stats.savingsRate / 20, 1) * 40) +
     (Math.min(stats.totalPortfolioValue / 100000, 1) * 30) +
     (Math.max(1 - (debtToIncome / 100), 0) * 30)
   );
+
+  const wealthScore = isFinancialDataEmpty ? null : calculatedWealthScore;
 
   const getHealthLabel = (score: number) => {
     if (score >= 80) return { label: t.excellent, color: 'bg-green-500' };
@@ -75,18 +89,57 @@ const FinancialHealthSection = ({ stats }: FinancialHealthSectionProps) => {
     return { label: t.needsWork, color: 'bg-red-500' };
   };
 
-  const healthInfo = getHealthLabel(wealthScore);
+  const healthInfo = isFinancialDataEmpty 
+    ? { label: "N/A", color: 'bg-gray-500' }
+    : getHealthLabel(calculatedWealthScore);
 
-  const pieData = [
-    { name: t.savings, value: stats.monthlyIncome - stats.monthlyExpenses, fill: '#10b981' },
-    { name: t.expenses, value: stats.monthlyExpenses, fill: '#f59e0b' },
+  const pieData = (
+    stats.monthlyIncome === 0 && stats.monthlyExpenses === 0
+      ? []
+      : [
+          { name: t.savings, value: stats.monthlyIncome - stats.monthlyExpenses, fill: '#10b981' },
+          { name: t.expenses, value: stats.monthlyExpenses, fill: '#f59e0b' },
+        ]
+  );
+
+  const barData = isFinancialDataEmpty ? [
+    { name: 'Jan', income: 0, expenses: 0 },
+    { name: 'Feb', income: 0, expenses: 0 },
+    { name: 'Mar', income: 0, expenses: 0 },
+    { name: 'Apr', income: 0, expenses: 0 },
+    { name: 'May', income: 0, expenses: 0 },
+    { name: 'Jun', income: 0, expenses: 0 },
+    { name: 'Jul', income: 0, expenses: 0 },
+    { name: 'Aug', income: 0, expenses: 0 },
+    { name: 'Sep', income: 0, expenses: 0 },
+    { name: 'Oct', income: 0, expenses: 0 },
+    { name: 'Nov', income: 0, expenses: 0 },
+    { name: 'Dec', income: 0, expenses: 0 },
+  ] : [
+    { name: 'Jan', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Feb', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Mar', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Apr', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'May', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Jun', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Jul', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Aug', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Sep', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Oct', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Nov', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+    { name: 'Dec', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
   ];
 
-  const barData = [
-    { name: 'Jan', income: 8500, expenses: 6200 },
-    { name: 'Feb', income: 9200, expenses: 6800 },
-    { name: 'Mar', income: 8800, expenses: 6500 },
-    { name: 'Apr', income: stats.monthlyIncome, expenses: stats.monthlyExpenses },
+  const yearlyData = isFinancialDataEmpty ? [
+    { name: '2022', income: 0, expenses: 0 },
+    { name: '2023', income: 0, expenses: 0 },
+    { name: '2024', income: 0, expenses: 0 },
+    { name: '2025', income: 0, expenses: 0 },
+  ] : [
+    { name: '2022', income: 100000, expenses: 70000 },
+    { name: '2023', income: 120000, expenses: 80000 },
+    { name: '2024', income: 130000, expenses: 90000 },
+    { name: '2025', income: stats.monthlyIncome * 12, expenses: stats.monthlyExpenses * 12 },
   ];
 
   return (
@@ -115,9 +168,9 @@ const FinancialHealthSection = ({ stats }: FinancialHealthSectionProps) => {
         <CardContent className="space-y-6">
           {/* Wealth Score */}
           <div className="text-center">
-            <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">{wealthScore}%</div>
+            <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">{isFinancialDataEmpty ? 'N/A' : `${wealthScore}%`}</div>
             <div className="text-sm text-slate-600 dark:text-slate-400 mb-3">{t.wealthScore}</div>
-            <Progress value={wealthScore} className="h-3" />
+            <Progress value={wealthScore === null ? 0 : wealthScore} className="h-3" />
           </div>
 
           {/* Key Metrics */}
@@ -156,6 +209,27 @@ const FinancialHealthSection = ({ stats }: FinancialHealthSectionProps) => {
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
+                  <XAxis dataKey="name" fontSize={10} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="income" fill="#10b981" radius={2} />
+                  <Bar dataKey="expenses" fill="#f59e0b" radius={2} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </div>
+
+          {/* Yearly Trends Chart */}
+          <div className="space-y-3">
+            <h4 className="font-semibold text-slate-800 dark:text-slate-100">Yearly Trends</h4>
+            <ChartContainer
+              config={{
+                income: { label: t.income, color: '#10b981' },
+                expenses: { label: t.expenses, color: '#f59e0b' },
+              }}
+              className="h-32"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={yearlyData}>
                   <XAxis dataKey="name" fontSize={10} />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Bar dataKey="income" fill="#10b981" radius={2} />

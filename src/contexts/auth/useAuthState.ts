@@ -7,13 +7,15 @@ import { Profile, User, Session } from './types';
 import { fetchProfile, signOutUser } from './authService';
 
 const mockUser: User = {
-  id: 'mock-user-id',
-  email: 'user@example.com',
+  id: 'galyarder-admin-id',
+  email: 'galyarder.admin@example.com',
+  user_metadata: { full_name: 'Galyarder Admin', avatar_url: 'https://i.pravatar.cc/150?u=galyarder.admin@example.com' },
+  isAdmin: true,
 };
 
 const mockSession: Session = {
-  access_token: 'mock-access-token',
-  refresh_token: 'mock-refresh-token',
+  access_token: 'mock-admin-access-token',
+  refresh_token: 'mock-admin-refresh-token',
   user: mockUser,
 };
 
@@ -25,7 +27,7 @@ export const useAuthState = () => {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   const signOut = useCallback(async () => {
-    // TODO: Replace with Bolt API
+    // TODO: Implement actual sign out logic with Bolt API
     await signOutUser();
     setUser(null);
     setSession(null);
@@ -42,19 +44,20 @@ export const useAuthState = () => {
   }, [user]);
 
   useEffect(() => {
-    // TODO: Replace with Bolt's auth state management
+    // TODO: Implement actual auth state management with Bolt API
+    // For now, we'll simulate a logged-in admin user
     setLoading(true);
     setLoadingProfile(true);
 
-          setTimeout(() => {
+    setTimeout(() => {
       setUser(mockUser);
       setSession(mockSession);
       fetchProfile(mockUser.id).then((profileData) => {
         setProfile(profileData);
-          setLoadingProfile(false);
+        setLoadingProfile(false);
       });
       setLoading(false);
-    }, 500);
+    }, 500); // Simulate network delay
   }, []);
 
   return {

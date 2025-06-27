@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-// import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/auth/useAuth';
 import { Button } from '@/components/global/ui/button';
 import {
@@ -24,7 +23,6 @@ const profileSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
-// Enhanced file validation
 const validateAvatarFile = (file: File): string | null => {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
   const maxSize = 2 * 1024 * 1024; // 2MB
@@ -41,7 +39,7 @@ const validateAvatarFile = (file: File): string | null => {
 };
 
 export const AccountSettingsDialog: React.FC<{ onOpenChange: (open: boolean) => void }> = ({ onOpenChange }) => {
-  const { user, profile, reloadProfile } = useAuth();
+  const { user, profile, reloadProfile, updateProfile, uploadAvatar } = useAuth();
   const [isUploading, setIsUploading] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
@@ -76,27 +74,31 @@ export const AccountSettingsDialog: React.FC<{ onOpenChange: (open: boolean) => 
   };
 
   const onSubmit = async (data: ProfileFormValues) => {
-    // TODO: Replace with Bolt API
-    console.log("Updating profile with:", data);
-    if (avatarFile) {
-        console.log("New avatar file:", avatarFile.name);
-    }
-    
-        setIsUploading(true);
-    
-    setTimeout(async () => {
-        try {
+    if (!user) return;
+
+    try {
+      setIsUploading(true);
+      let avatarUrl = profile?.avatar_url;
+
+      if (avatarFile) {
+        const { data: uploadData, error: uploadError } = await uploadAvatar(user.id, avatarFile);
+        if (uploadError) throw uploadError;
+        avatarUrl = uploadData.publicUrl;
+      }
+
+      const { error: updateError } = await updateProfile(user.id, { ...data, avatar_url: avatarUrl });
+      if (updateError) throw updateError;
+
       toast.success('Profile updated successfully!');
-            await reloadProfile(); // This will now use the mock service
+      await reloadProfile();
       setAvatarFile(null);
       onOpenChange(false);
-        } catch (error) {
+    } catch (error) {
       console.error('Profile update error:', error);
-            toast.error('Failed to update profile.');
-        } finally {
+      toast.error('Failed to update profile.');
+    } finally {
       setIsUploading(false);
     }
-    }, 1000);
   };
 
   const avatarPreview = avatarFile 

@@ -1,29 +1,25 @@
 // import { User, Session } from '@supabase/supabase-js';
 // import { Tables } from '@/integrations/supabase/types';
 
-// TODO: Replace with Bolt's user/session types
-export type User = {
+export interface User {
   id: string;
-  email?: string;
-  user_metadata?: {
-    avatar_url?: string;
-  };
-  // add other user properties as needed
-};
+  email: string;
+  user_metadata?: Record<string, unknown>;
+  isAdmin?: boolean; // Added isAdmin property
+}
 
-export type Session = {
+export interface Session {
   access_token: string;
   refresh_token: string;
   user: User;
-};
+}
 
-export type Profile = {
+export interface Profile {
   id: string;
-  full_name?: string;
-  has_completed_onboarding?: boolean;
-  avatar_url?: string;
-  // add other profile properties as needed
-};
+  full_name: string | null;
+  avatar_url?: string | null;
+  has_completed_onboarding: boolean;
+}
 
 export interface AuthContextType {
   user: User | null;
@@ -31,9 +27,12 @@ export interface AuthContextType {
   profile: Profile | null;
   loading: boolean;
   loadingProfile: boolean;
-  reloadProfile: () => Promise<void>;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signInWithGoogle: () => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
+  reloadProfile: () => Promise<void>;
+  updateProfile: (userId: string, updates: Partial<Profile>) => Promise<{ error: Error | null }>;
+  uploadAvatar: (userId: string, file: File) => Promise<{ data: { publicUrl: string | null }, error: Error | null }>;
 }
+

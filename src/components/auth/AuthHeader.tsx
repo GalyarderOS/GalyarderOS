@@ -21,9 +21,9 @@ export const AuthHeader = ({ isLogin }: AuthHeaderProps) => {
       </Button>
       
       <div className="flex items-center justify-center space-x-3 mb-6">
-        <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center soft-shadow">
+        <div className="w-12 h-12 flex items-center justify-center">
           <img 
-            src="/galyarder-logo.svg" 
+            src="/logo.png" 
             alt="GalyarderOS Logo" 
             className="h-8 w-8 object-contain"
           />

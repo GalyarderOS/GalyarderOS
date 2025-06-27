@@ -22,29 +22,18 @@ export const useAuthForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // TODO: Replace with Bolt API
-    console.log('Form submitted');
-    setTimeout(() => {
-      setLoading(false);
-      if (isLogin) {
-        navigate('/dashboard');
-      } else {
-        toast({
-          title: "Check your email",
-          description: "We've sent you a verification link.",
-          });
-      }
-    }, 1000);
+    // Implement actual sign-in/sign-up logic here
+    console.warn('handleSubmit: Not implemented.');
+    setLoading(false);
+    // Example: navigate('/dashboard');
   };
 
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true);
-    // TODO: Replace with Bolt API
-    console.log('Google sign in');
-    setTimeout(() => {
-      setGoogleLoading(false);
-      navigate('/dashboard');
-    }, 1000);
+    // Implement actual Google sign-in logic here
+    console.warn('handleGoogleSignIn: Not implemented.');
+    setGoogleLoading(false);
+    // Example: navigate('/dashboard');
   };
 
   return {

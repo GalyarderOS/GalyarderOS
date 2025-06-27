@@ -26,29 +26,6 @@ const initialState: DashboardStats = {
   notionPagesCount: 0,
 };
 
-const mockStats: DashboardStats = {
-  totalPortfolioValue: 76543.21,
-  monthlyIncome: 5432.10,
-  monthlyExpenses: 2345.67,
-  totalDebt: 12345.67,
-  wealthGoals: 3,
-  investments: 12,
-  activeHabits: 5,
-  activeRituals: 3,
-  habitStreak: 14,
-  ritualStreak: 5,
-  focusHoursToday: 2.5,
-  notesCount: 42,
-  reflectionEntries: 15,
-  activeGoals: 4,
-  lifeBalanceScore: 78,
-  weeklyFocusHours: 15.5,
-  completedGoalsThisMonth: 2,
-  savingsRate: 56.8,
-  calendarEventsThisWeek: 8,
-  notionPagesCount: 23,
-};
-
 export const useDashboardStats = () => {
   // const { user } = useAuth();
   const [stats, setStats] = useState<DashboardStats>(initialState);
@@ -57,12 +34,8 @@ export const useDashboardStats = () => {
   useEffect(() => {
       setLoading(true);
     // TODO: Replace with Bolt API
-    const timer = setTimeout(() => {
-      setStats(mockStats);
-      setLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    // Implement actual data fetching here
+    setLoading(false);
   }, []);
 
   return { stats, loading };

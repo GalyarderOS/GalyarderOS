@@ -34,21 +34,21 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    // TODO: Replace with Bolt API
-    // Mock loading user settings
-        setSettings({
-      gemini_api_key: 'mock_gemini_key_loaded',
-      notion_token: 'mock_notion_token_loaded',
-          notifications_enabled: true,
+    // TODO: Implement actual data fetching from Bolt API
+    // For now, settings will start empty
+    setSettings({
+      gemini_api_key: '',
+      notion_token: '',
+      notifications_enabled: true,
       dark_mode: theme === 'dark',
       language: language as 'en' | 'id'
-        });
+    });
   }, [user, theme, language]);
 
   const saveSettings = async () => {
     setLoading(true);
-    // TODO: Replace with Bolt API
-    console.log('Saving settings:', settings);
+    // TODO: Implement actual data saving to Bolt API
+    console.warn('Saving settings: Not implemented.', settings);
 
       // Update theme context
       if (settings.dark_mode !== (theme === 'dark')) {
@@ -60,13 +60,11 @@ const Settings = () => {
         setLanguage(settings.language);
       }
 
-    setTimeout(() => {
-      setLoading(false);
-      toast({
-        title: "Settings saved",
-        description: "Your preferences have been updated successfully.",
-      });
-    }, 1000);
+    setLoading(false);
+    toast({
+      title: "Settings saved",
+      description: "Your preferences have been updated successfully.",
+    });
   };
 
   const translations = {

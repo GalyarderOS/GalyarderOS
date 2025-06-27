@@ -10,6 +10,12 @@ const DashboardHome = () => {
   const { stats, loading } = useDashboardStats();
   const { isFirstTimeUser, markOnboardingCompleted, isLoading: isFirstTimeUserLoading } = useFirstTimeUser();
 
+  const productivityData = [];
+
+  const goalProgressData = [];
+
+  const timeTrackingData = [];
+
   const handleWelcomeClose = () => {
     markOnboardingCompleted();
   };
@@ -27,7 +33,12 @@ const DashboardHome = () => {
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader stats={stats} />
-      <DashboardContent stats={stats} />
+      <DashboardContent 
+        stats={stats}
+        productivityData={productivityData}
+        goalProgressData={goalProgressData}
+        timeTrackingData={timeTrackingData}
+      />
       
       <WelcomeCenter 
         isOpen={isFirstTimeUser} 
